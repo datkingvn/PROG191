@@ -4,6 +4,7 @@
  */
 package com.mycompany.productsmanagementgcd210057;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.ArrayList;
 import java.util.List;
@@ -232,6 +233,11 @@ public class ProductJFrame extends javax.swing.JFrame {
                 tableShowProductsMouseClicked(evt);
             }
         });
+        tableShowProducts.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tableShowProductsKeyReleased(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableShowProducts);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -349,9 +355,15 @@ public class ProductJFrame extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_addBtnActionPerformed
+    // Logic code nút Add
+    private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {
+        this.txtProductID.setText("");
+        this.txtName.setText("");
+        this.txtQuantity.setText("");
+        this.txtPrice.setText("");
+        this.txtDescribe.setText("");
+        this.txtCategory.setText("");
+    }
 
     private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
         // TODO add your handling code here:
@@ -361,13 +373,49 @@ public class ProductJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_deleteBtnActionPerformed
 
-    private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_saveBtnActionPerformed
+    // Code logic bấm SAVE
+    private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {
+        String id = this.txtProductID.getText();
+        String name = this.txtName.getText();
+        String quantityStr = this.txtQuantity.getText();
+        String priceStr = this.txtPrice.getText();
+        String describe = this.txtDescribe.getText();
+        String category = this.txtCategory.getText();
+
+        // Check condition before click Save
+        if (id.isEmpty() || name.isEmpty() || quantityStr.isEmpty() || priceStr.isEmpty() || describe.isEmpty() || category.isEmpty()) {
+            // Display an error message or perform appropriate actions
+            JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Check Quantity, price write wrong format
+        int quantity;
+        double price;
+        try {
+            quantity = Integer.parseInt(quantityStr);
+            price = Double.parseDouble(priceStr);
+        } catch (NumberFormatException e) {
+            // Display an error message or perform appropriate actions
+            JOptionPane.showMessageDialog(this, "Invalid quantity or price.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Success => Add
+        productList.add(new Product(id, name, quantity, price, describe, category));
+        View();
+        ShowTableProducts();
+    }
 
     private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cancelBtnActionPerformed
+
+    // Xử lý sự kiện khi dùng bàn phím di chuyển lên xuống (Hiển thị lại thông tin Product khi click vào các row)
+    private void tableShowProductsKeyReleased(java.awt.event.KeyEvent evt) {
+        position = this.tableShowProducts.getSelectedRow();
+        View();
+    }
 
     // Xử lý sự kiện khi click vào table show Product (Hiển thị lại thông tin Product khi click vào các row)
     private void tableShowProductsMouseClicked(java.awt.event.MouseEvent evt) {
