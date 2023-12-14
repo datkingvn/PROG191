@@ -4,17 +4,65 @@
  */
 package com.mycompany.productsmanagementgcd210057;
 
+import javax.swing.table.DefaultTableModel;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- *
  * @author tranmanhdat
  */
 public class ProductJFrame extends javax.swing.JFrame {
+
+    List<Product> productList = new ArrayList<Product>();
+    Product product;
+    private static int position = 0;
 
     /**
      * Creates new form ProductJFrame
      */
     public ProductJFrame() {
+
         initComponents();
+
+        // Add sample data product
+        productList.add(new Product("11", "Doraemon", 2, 1000, "This is book from Japan", "Anime Book"));
+        productList.add(new Product("22", "Conan", 5, 1111, "This is book from Japan", "Manga Book"));
+        productList.add(new Product("33", "Shin", 7, 3214, "This is book from Japan", "Anime Book"));
+        productList.add(new Product("44", "Winx", 10, 2167, "This is book from Japan", "Funny Book"));
+
+
+        // Call View()
+        View();
+        // Show Table Product
+        ShowTableProducts();
+    }
+
+    // Hiển thị thông tin vào Form
+    public void View() {
+        product = productList.get(position);
+        this.txtProductID.setText(product.getProductID());
+        this.txtName.setText(product.getProductName());
+        this.txtQuantity.setText("" + product.getProductQuantity());
+        this.txtPrice.setText("" + product.getProductPrice());
+        this.txtDescribe.setText(product.getProductDescribe());
+        this.txtCategory.setText(product.getProductCategory());
+    }
+
+    public void ShowTableProducts() {
+        DefaultTableModel defaultTableModel = (DefaultTableModel) this.tableShowProducts.getModel();
+        defaultTableModel.setNumRows(0);
+        int n = 1;
+        for (Product product : productList) {
+            defaultTableModel.addRow(new Object[] {
+                    n++,
+                    product.getProductID(),
+                    product.getProductName(),
+                    product.getProductQuantity(),
+                    product.getProductPrice(),
+                    product.getProductDescribe(),
+                    product.getProductCategory()
+            });
+        }
     }
 
     /**
@@ -170,15 +218,20 @@ public class ProductJFrame extends javax.swing.JFrame {
 
         tableShowProducts.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null}
             },
             new String [] {
-                "Product ID", "Product Name", "Price", "Quantity", "Category", "Describe"
+                "No.", "Product ID", "Product Name", "Price", "Quantity", "Category", "Describe"
             }
         ));
+        tableShowProducts.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tableShowProductsMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tableShowProducts);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -316,6 +369,12 @@ public class ProductJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_cancelBtnActionPerformed
 
+    // Xử lý sự kiện khi click vào table show Product (Hiển thị lại thông tin Product khi click vào các row)
+    private void tableShowProductsMouseClicked(java.awt.event.MouseEvent evt) {
+        position = this.tableShowProducts.getSelectedRow();
+        View();
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -323,7 +382,7 @@ public class ProductJFrame extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {

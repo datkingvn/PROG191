@@ -1,8 +1,5 @@
 package com.mycompany.productsmanagementgcd210057;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  *
  * @author tranmanhdat
