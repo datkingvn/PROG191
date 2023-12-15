@@ -6,6 +6,9 @@ package com.mycompany.productsmanagementgcd210057;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +53,10 @@ public class ProductJFrame extends javax.swing.JFrame {
     }
 
     public void ShowTableProducts() {
+        getTableModelFromTableShowProducts(productList);
+    }
+
+    private void getTableModelFromTableShowProducts(List<Product> productList) {
         DefaultTableModel defaultTableModel = (DefaultTableModel) this.tableShowProducts.getModel();
         defaultTableModel.setNumRows(0);
         int n = 1;
@@ -98,6 +105,8 @@ public class ProductJFrame extends javax.swing.JFrame {
         deleteBtn = new javax.swing.JButton();
         saveBtn = new javax.swing.JButton();
         cancelBtn = new javax.swing.JButton();
+        searchField = new javax.swing.JTextField();
+        searchBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Product Management - Tran Manh Dat");
@@ -307,6 +316,13 @@ public class ProductJFrame extends javax.swing.JFrame {
             }
         });
 
+        searchBtn.setText("Search");
+        searchBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -318,7 +334,11 @@ public class ProductJFrame extends javax.swing.JFrame {
                     .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(24, 24, 24)
+                        .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(searchBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(addBtn)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(editBtn)
@@ -346,7 +366,9 @@ public class ProductJFrame extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(addBtn)
                     .addComponent(editBtn)
-                    .addComponent(deleteBtn))
+                    .addComponent(deleteBtn)
+                    .addComponent(searchField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchBtn))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -357,21 +379,123 @@ public class ProductJFrame extends javax.swing.JFrame {
 
     // Logic code nút Add
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {
-        this.txtProductID.setText("");
-        this.txtName.setText("");
-        this.txtQuantity.setText("");
-        this.txtPrice.setText("");
-        this.txtDescribe.setText("");
-        this.txtCategory.setText("");
+        String id = this.txtProductID.getText();
+        String name = this.txtName.getText();
+        String quantityStr = this.txtQuantity.getText();
+        String priceStr = this.txtPrice.getText();
+        String describe = this.txtDescribe.getText();
+        String category = this.txtCategory.getText();
+
+        // Check condition before click Add
+        if (id.isEmpty() || name.isEmpty() || quantityStr.isEmpty() || priceStr.isEmpty() || describe.isEmpty() || category.isEmpty()) {
+            // Display an error message or perform appropriate actions
+            JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Check Quantity, price write wrong format
+        int quantity;
+        double price;
+        try {
+            quantity = Integer.parseInt(quantityStr);
+            price = Double.parseDouble(priceStr);
+        } catch (NumberFormatException e) {
+            // Display an error message or perform appropriate actions
+            JOptionPane.showMessageDialog(this, "Invalid quantity or price.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        // Success => Add
+        productList.add(new Product(id, name, quantity, price, describe, category));
+
+        // Refresh the table and view
+        ShowTableProducts();
+        View();
     }
 
-    private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_editBtnActionPerformed
+
+    private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {
+        // Get the updated values from the text fields
+    String id = this.txtProductID.getText();
+    String name = this.txtName.getText();
+    String quantityStr = this.txtQuantity.getText();
+    String priceStr = this.txtPrice.getText();
+    String describe = this.txtDescribe.getText();
+    String category = this.txtCategory.getText();
+
+    // Check condition before click Edit
+    if (id.isEmpty() || name.isEmpty() || quantityStr.isEmpty() || priceStr.isEmpty() || describe.isEmpty() || category.isEmpty()) {
+        // Display an error message or perform appropriate actions
+        JOptionPane.showMessageDialog(this, "Please fill in all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Check Quantity, price write wrong format
+    int quantity;
+    double price;
+    try {
+        quantity = Integer.parseInt(quantityStr);
+        price = Double.parseDouble(priceStr);
+    } catch (NumberFormatException e) {
+        // Display an error message or perform appropriate actions
+        JOptionPane.showMessageDialog(this, "Invalid quantity or price.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Update the selected product in the list
+    Product updatedProduct = new Product(id, name, quantity, price, describe, category);
+    productList.set(position, updatedProduct);
+
+    // Refresh the table and view
+    ShowTableProducts();
+    View();
+
+    }
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
-        // TODO add your handling code here:
+
+    // Confirm with the user before deleting
+    int option = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this product?", "Confirmation", JOptionPane.YES_NO_OPTION);
+    if (option == JOptionPane.YES_OPTION) {
+        // Remove the selected product from the list
+        productList.remove(position);
+
+        // Refresh the table and view
+        ShowTableProducts();
+        View();
+    }
     }//GEN-LAST:event_deleteBtnActionPerformed
+
+    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {
+        // Get the search keyword from the text field
+        String keyword = searchField.getText().trim().toLowerCase();
+
+        // Create a filtered list of products based on the search keyword
+        List<Product> searchResults = new ArrayList<>();
+        for (Product product : productList) {
+            if (productMatchesSearchCriteria(product, keyword)) {
+                searchResults.add(product);
+            }
+        }
+
+        // Display the search results in the table
+        displaySearchResults(searchResults);
+    }
+
+    private boolean productMatchesSearchCriteria(Product product, String keyword) {
+        // Check if any of the product information contains the search keyword
+        return product.getProductID().toLowerCase().contains(keyword)
+                || product.getProductName().toLowerCase().contains(keyword)
+                || String.valueOf(product.getProductQuantity()).contains(keyword)
+                || String.valueOf(product.getProductPrice()).contains(keyword)
+                || product.getProductDescribe().toLowerCase().contains(keyword)
+                || product.getProductCategory().toLowerCase().contains(keyword);
+    }
+
+    private void displaySearchResults(List<Product> searchResults) {
+        getTableModelFromTableShowProducts(searchResults);
+    }
+
 
     // Code logic bấm SAVE
     private void saveBtnActionPerformed(java.awt.event.ActionEvent evt) {
@@ -401,15 +525,46 @@ public class ProductJFrame extends javax.swing.JFrame {
             return;
         }
 
-        // Success => Add
-        productList.add(new Product(id, name, quantity, price, describe, category));
+        // Success => Add to the list
+        Product newProduct = new Product(id, name, quantity, price, describe, category);
+        productList.add(newProduct);
         View();
         ShowTableProducts();
+
+        // Save to text file
+        saveToFile(newProduct);
     }
 
-    private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cancelBtnActionPerformed
+    private void saveToFile(Product product) {
+        try {
+            // Create a FileWriter with append mode
+            FileWriter fileWriter = new FileWriter("productData.txt", true);
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+
+            // Write product data to the file
+            bufferedWriter.write(product.getProductID() + "," +
+                    product.getProductName() + "," +
+                    product.getProductQuantity() + "," +
+                    product.getProductPrice() + "," +
+                    product.getProductDescribe() + "," +
+                    product.getProductCategory());
+            bufferedWriter.newLine(); // Move to the next line
+
+            // Close the BufferedWriter
+            bufferedWriter.close();
+
+            // Display a success message or perform appropriate actions
+            JOptionPane.showMessageDialog(this, "Product data saved to file successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+
+        } catch (IOException e) {
+            // Display an error message or perform appropriate actions
+            JOptionPane.showMessageDialog(this, "Error saving product data to file.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void cancelBtnActionPerformed(java.awt.event.ActionEvent evt) {
+        System.exit(0);
+    }
 
     // Xử lý sự kiện khi dùng bàn phím di chuyển lên xuống (Hiển thị lại thông tin Product khi click vào các row)
     private void tableShowProductsKeyReleased(java.awt.event.KeyEvent evt) {
@@ -475,6 +630,8 @@ public class ProductJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton saveBtn;
+    private javax.swing.JButton searchBtn;
+    private javax.swing.JTextField searchField;
     private javax.swing.JTable tableShowProducts;
     private javax.swing.JTextField txtCategory;
     private javax.swing.JTextField txtDescribe;
