@@ -19,7 +19,7 @@ public class ProductJFrame extends javax.swing.JFrame {
 
     List<Product> productList = new ArrayList<Product>();
     Product product;
-    private static int position = 0;
+    static int position = 0;
 
     /**
      * Creates new form ProductJFrame
@@ -614,10 +614,10 @@ public class ProductJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addBtn;
+    javax.swing.JButton addBtn;
     private javax.swing.JButton cancelBtn;
-    private javax.swing.JButton deleteBtn;
-    private javax.swing.JButton editBtn;
+    javax.swing.JButton deleteBtn;
+    javax.swing.JButton editBtn;
     private javax.swing.JLabel introProject;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -630,14 +630,14 @@ public class ProductJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton saveBtn;
-    private javax.swing.JButton searchBtn;
-    private javax.swing.JTextField searchField;
-    private javax.swing.JTable tableShowProducts;
-    private javax.swing.JTextField txtCategory;
-    private javax.swing.JTextField txtDescribe;
-    private javax.swing.JTextField txtName;
-    private javax.swing.JTextField txtPrice;
-    private javax.swing.JTextField txtProductID;
-    private javax.swing.JTextField txtQuantity;
+    javax.swing.JButton searchBtn;
+    javax.swing.JTextField searchField;
+    javax.swing.JTable tableShowProducts;
+    javax.swing.JTextField txtCategory;
+    javax.swing.JTextField txtDescribe;
+    javax.swing.JTextField txtName;
+    javax.swing.JTextField txtPrice;
+    javax.swing.JTextField txtProductID;
+    javax.swing.JTextField txtQuantity;
     // End of variables declaration//GEN-END:variables
 }
