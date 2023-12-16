@@ -1,5 +1,6 @@
 package com.mycompany.productsmanagementgcd210057;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -7,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ProductJFrameTest {
 
     @Test
+    @DisplayName("Test Add Product")
     void addProduct() {
         ProductJFrame productJFrame = new ProductJFrame();
 
@@ -35,6 +37,7 @@ class ProductJFrameTest {
 
 
     @Test
+    @DisplayName("Test Edit Product")
     void editProduct() {
         ProductJFrame productJFrame = new ProductJFrame();
 
@@ -60,6 +63,7 @@ class ProductJFrameTest {
     }
 
     @Test
+    @DisplayName("Test Delete Product")
     void deleteProduct() {
         ProductJFrame productJFrame = new ProductJFrame();
 
@@ -75,6 +79,7 @@ class ProductJFrameTest {
     }
 
     @Test
+    @DisplayName("Test Search Product")
     void searchProduct() {
         ProductJFrame productJFrame = new ProductJFrame();
 
