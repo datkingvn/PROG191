@@ -57,6 +57,12 @@ public class ProductJFrame extends javax.swing.JFrame {
     }
 
     private void getTableModelFromTableShowProducts(List<Product> productList) {
+        /**
+         * get the properties of current table model first, then add
+         * new rows to it
+         */
+
+        // get current properties
         DefaultTableModel defaultTableModel = (DefaultTableModel) this.tableShowProducts.getModel();
         defaultTableModel.setNumRows(0);
         int n = 1;
@@ -84,6 +90,7 @@ public class ProductJFrame extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         introProject = new javax.swing.JLabel();
+        clearSampleData = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -117,6 +124,13 @@ public class ProductJFrame extends javax.swing.JFrame {
         introProject.setForeground(new java.awt.Color(103, 114, 71));
         introProject.setText("PRODUCTS MANAGEMENT - GCD210057");
 
+        clearSampleData.setText("Clear Sample Data");
+        clearSampleData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearSampleDataActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -124,13 +138,17 @@ public class ProductJFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(211, 211, 211)
                 .addComponent(introProject)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(clearSampleData)
+                .addGap(81, 81, 81))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(introProject)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(introProject)
+                    .addComponent(clearSampleData))
                 .addContainerGap(7, Short.MAX_VALUE))
         );
 
@@ -466,6 +484,16 @@ public class ProductJFrame extends javax.swing.JFrame {
     }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
+    private void clearSampleDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearSampleDataActionPerformed
+        // TODO add your handling code here:
+        this.txtProductID.setText("");
+        this.txtName.setText("");
+        this.txtQuantity.setText("");
+        this.txtPrice.setText("");
+        this.txtDescribe.setText("");
+        this.txtCategory.setText("");
+    }//GEN-LAST:event_clearSampleDataActionPerformed
+
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {
         // Get the search keyword from the text field
         String keyword = searchField.getText().trim().toLowerCase();
@@ -614,10 +642,11 @@ public class ProductJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    javax.swing.JButton addBtn;
+    private javax.swing.JButton addBtn;
     private javax.swing.JButton cancelBtn;
-    javax.swing.JButton deleteBtn;
-    javax.swing.JButton editBtn;
+    private javax.swing.JButton clearSampleData;
+    private javax.swing.JButton deleteBtn;
+    private javax.swing.JButton editBtn;
     private javax.swing.JLabel introProject;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -630,14 +659,14 @@ public class ProductJFrame extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton saveBtn;
-    javax.swing.JButton searchBtn;
-    javax.swing.JTextField searchField;
-    javax.swing.JTable tableShowProducts;
-    javax.swing.JTextField txtCategory;
-    javax.swing.JTextField txtDescribe;
-    javax.swing.JTextField txtName;
-    javax.swing.JTextField txtPrice;
-    javax.swing.JTextField txtProductID;
-    javax.swing.JTextField txtQuantity;
+    private javax.swing.JButton searchBtn;
+    private javax.swing.JTextField searchField;
+    private javax.swing.JTable tableShowProducts;
+    private javax.swing.JTextField txtCategory;
+    private javax.swing.JTextField txtDescribe;
+    private javax.swing.JTextField txtName;
+    private javax.swing.JTextField txtPrice;
+    private javax.swing.JTextField txtProductID;
+    private javax.swing.JTextField txtQuantity;
     // End of variables declaration//GEN-END:variables
 }
