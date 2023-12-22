@@ -7,7 +7,7 @@ package com.mycompany.productsmanagementgcd210057;
 public class ProductsManagementGCD210057 {
 
     public static void main(String[] args) {
-        ProductJFrame productJFrame = new ProductJFrame();
+        ConsignmentManagementJFrame productJFrame = new ConsignmentManagementJFrame();
         productJFrame.show();
     }
 }
