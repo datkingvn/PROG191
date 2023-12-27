@@ -1,0 +1,2 @@
+Dat 1,Dat 1,2,2,40,00,Book,Dat 1
+Dat 2,Dat 2,5,3,750,00,Electronic,Dat 2

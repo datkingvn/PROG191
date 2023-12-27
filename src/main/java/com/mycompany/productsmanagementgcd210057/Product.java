@@ -5,7 +5,7 @@ class Item {
     private String productName;
     private int times;
     private int quantity;
-    private Category category; // Declare a Category field
+    private Category category;
     private String consignor;
 
     public Item(String productID, String productName, int times, int quantity, Category category, String consignor) {
@@ -13,7 +13,7 @@ class Item {
         this.productName = productName;
         this.times = times;
         this.quantity = quantity;
-        this.category = category; // Assign the Category object
+        this.category = category;
         this.consignor = consignor;
     }
 
@@ -61,19 +61,6 @@ class Item {
         return consignor;
     }
 
-    public void setConsignor(String consignor) {
-        this.consignor = consignor;
-    }
-
-    public static double getDefaultPrice(Item item) {
-        Category category = item.getCategory();
-        if (category != null) {
-            return category.getDefaultPrice();
-        } else {
-            // Handle the case where the category is not set
-            return 0.0; // You can choose a default value or handle it differently
-        }
-    }
 
     @Override
     public String toString() {
